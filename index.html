@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Home | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <span class="eyebrow">COMMUNITY ENGAGEMENT PROJECT</span>
+        <h1>Digital Literacy Training for <span>Senior Citizens</span></h1>
+        <p>Helping senior citizens use smartphones, online services and digital payments with confidence and safety.</p>
+        <div class="hero-actions">
+            <a class="btn primary" href="{{ url_for('modules') }}">Start Learning →</a>
+            <a class="btn secondary" href="{{ url_for('survey', survey_type='pre') }}">Take Pre-Survey</a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <div class="phone">📱</div>
+        <h3>Learn • Practice • Stay Safe</h3>
+        <p>Simple lessons designed for beginners.</p>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card"><span>📚</span><strong>{{ modules|length }}</strong><small>Learning Modules</small></div>
+    <div class="stat-card"><span>👥</span><strong>{{ participants }}</strong><small>Participants Recorded</small></div>
+    <div class="stat-card"><span>📝</span><strong>{{ stats.pre.count + stats.post.count }}</strong><small>Survey Responses</small></div>
+    <div class="stat-card"><span>⭐</span><strong>{{ feedback_count }}</strong><small>Feedback Responses</small></div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div><span class="eyebrow">WHAT WE TEACH</span><h2>Useful digital skills for everyday life</h2></div>
+        <a class="text-link" href="{{ url_for('modules') }}">View all modules →</a>
+    </div>
+    <div class="module-grid">
+        {% for module in modules[:6] %}
+        <a class="module-card" href="{{ url_for('module_detail', module_id=module.id) }}">
+            <div class="module-icon">{{ module.icon }}</div>
+            <h3>{{ module.title }}</h3>
+            <p>{{ module.description }}</p>
+            <span>Learn step-by-step →</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="split-section">
+    <div class="info-panel">
+        <span class="eyebrow">CEP APPROACH</span>
+        <h2>Learn → Practice → Measure Improvement</h2>
+        <p>The project uses a simple before-and-after survey to understand whether the training improves digital confidence and awareness.</p>
+        <div class="mini-steps">
+            <div><b>01</b> Pre-training survey</div>
+            <div><b>02</b> Practical training</div>
+            <div><b>03</b> Post-training survey</div>
+            <div><b>04</b> Results & feedback</div>
+        </div>
+    </div>
+    <div class="safety-panel">
+        <span class="eyebrow">MOST IMPORTANT</span>
+        <h2>Stay Safe Online 🔐</h2>
+        <p>Never share an OTP, UPI PIN, password or banking details with an unknown person.</p>
+        <a class="btn primary" href="{{ url_for('safety') }}">View Safety Tips</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ module.title }} | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="page-header compact">
+    <div class="big-icon">{{ module.icon }}</div>
+    <span class="eyebrow">TRAINING MODULE</span>
+    <h1>{{ module.title }}</h1>
+    <p>{{ module.description }}</p>
+</section>
+
+<section class="lesson-layout">
+    <article class="content-card">
+        <h2>Step-by-Step Training</h2>
+        <div class="lesson-steps">
+        {% for step in module.steps %}
+            <div class="lesson-step">
+                <span>{{ loop.index }}</span>
+                <p>{{ step }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    </article>
+
+    <aside class="tip-card">
+        <h2>💡 Remember</h2>
+        {% for tip in module.tips %}
+            <div class="tip">✓ {{ tip }}</div>
+        {% endfor %}
+        <button class="btn primary full-btn" onclick="speakLesson()">🔊 Read Instructions Aloud</button>
+    </aside>
+</section>
+
+<div id="speechText" class="hidden">{{ module.title }}. {{ module.description }}. {% for step in module.steps %}Step {{ loop.index }}. {{ step }}. {% endfor %}</div>
+<div class="page-actions"><a class="btn secondary" href="{{ url_for('modules') }}">← Back to Modules</a><a class="btn primary" href="{{ url_for('survey', survey_type='pre') }}">Take Survey →</a></div>
+{% endblock %}

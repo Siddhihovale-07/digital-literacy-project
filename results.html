@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Results | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="page-header compact">
+    <span class="eyebrow">DATA ANALYSIS</span>
+    <h1>Training Results Dashboard</h1>
+    <p>Use this page to compare digital awareness before and after training.</p>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card"><span>📝</span><strong>{{ stats.pre.count }}</strong><small>Pre-Survey Responses</small></div>
+    <div class="stat-card"><span>🎓</span><strong>{{ stats.post.count }}</strong><small>Post-Survey Responses</small></div>
+    <div class="stat-card"><span>📈</span><strong>{{ stats.pre.avg }}/10</strong><small>Average Before</small></div>
+    <div class="stat-card"><span>🚀</span><strong>{{ stats.post.avg }}/10</strong><small>Average After</small></div>
+</section>
+
+{% if improvement is not none %}
+<div class="success-banner">Average score improved by <strong>{{ improvement }} points</strong> after training.</div>
+{% else %}
+<div class="info-banner">Enter both pre-training and post-training responses to display the improvement.</div>
+{% endif %}
+
+<section class="charts-grid">
+    <div class="chart-card">
+        <h2>Before vs After</h2>
+        <canvas id="comparisonChart"></canvas>
+    </div>
+    <div class="chart-card">
+        <h2>Survey Response Count</h2>
+        <canvas id="countChart"></canvas>
+    </div>
+</section>
+
+<section class="content-card">
+    <h2>How to explain the chart</h2>
+    <p>The pre-training score represents the participants' knowledge before the session. The post-training score represents their knowledge after the session. A higher post-training score suggests that the training was useful.</p>
+</section>
+
+<section class="content-card">
+    <h2>Recent Survey Records</h2>
+    <div class="table-wrap">
+    <table>
+        <thead><tr><th>Type</th><th>Participant</th><th>Age</th><th>Score</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for row in recent %}
+        <tr><td>{{ row["survey_type"]|title }}</td><td>{{ row["participant_name"] }}</td><td>{{ row["age"] }}</td><td>{{ row["score"] }}/10</td><td>{{ row["created_at"][:10] }}</td></tr>
+        {% else %}
+        <tr><td colspan="5">No survey responses yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    const pre = {{ stats.pre.avg }};
+    const post = {{ stats.post.avg }};
+    new Chart(document.getElementById("comparisonChart"), {
+        type: "bar",
+        data: {
+            labels: ["Before Training", "After Training"],
+            datasets: [{ label: "Average Score / 10", data: [pre, post], borderWidth: 1 }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
+    });
+    new Chart(document.getElementById("countChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["Pre-Survey", "Post-Survey"],
+            datasets: [{ data: [{{ stats.pre.count }}, {{ stats.post.count }}], borderWidth: 1 }]
+        },
+        options: { responsive: true }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="page-header compact">
+    <span class="eyebrow">PROJECT DASHBOARD</span>
+    <h1>CEP Data Management</h1>
+    <p>For project demonstration and student analysis. Add real community responses after your field activity.</p>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card"><span>👥</span><strong>{{ participants }}</strong><small>Unique Participants</small></div>
+    <div class="stat-card"><span>📋</span><strong>{{ stats.pre.count }}</strong><small>Pre Responses</small></div>
+    <div class="stat-card"><span>🎓</span><strong>{{ stats.post.count }}</strong><small>Post Responses</small></div>
+    <div class="stat-card"><span>⭐</span><strong>{{ feedback_rows|length }}</strong><small>Feedback Records</small></div>
+</section>
+
+<section class="content-card">
+    <h2>Survey Records</h2>
+    <div class="table-wrap">
+    <table>
+        <thead><tr><th>ID</th><th>Type</th><th>Name</th><th>Age</th><th>Score</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for row in survey_rows %}
+        <tr><td>{{ row["id"] }}</td><td>{{ row["survey_type"]|title }}</td><td>{{ row["participant_name"] }}</td><td>{{ row["age"] }}</td><td>{{ row["score"] }}/10</td><td>{{ row["created_at"][:10] }}</td></tr>
+        {% else %}
+        <tr><td colspan="6">No records yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<section class="content-card">
+    <h2>Feedback Records</h2>
+    <div class="table-wrap">
+    <table>
+        <thead><tr><th>Name</th><th>Rating</th><th>Comment</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for row in feedback_rows %}
+        <tr><td>{{ row["participant_name"] }}</td><td>{{ row["rating"] }}/5</td><td>{{ row["comment"] or "-" }}</td><td>{{ row["created_at"][:10] }}</td></tr>
+        {% else %}
+        <tr><td colspan="4">No feedback yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Learning Modules | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="page-header">
+    <span class="eyebrow">LEARNING CENTRE</span>
+    <h1>Digital Skills Library</h1>
+    <p>Choose a topic and follow the simple steps.</p>
+</section>
+
+<section class="module-grid full">
+{% for module in modules %}
+    <a class="module-card" href="{{ url_for('module_detail', module_id=module.id) }}">
+        <div class="module-icon">{{ module.icon }}</div>
+        <h3>{{ module.title }}</h3>
+        <p>{{ module.description }}</p>
+        <span>Open lesson →</span>
+    </a>
+{% endfor %}
+</section>
+{% endblock %}

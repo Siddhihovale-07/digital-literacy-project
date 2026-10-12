@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Digital Literacy CEP{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="navbar">
+    <a class="brand" href="{{ url_for('index') }}">📱 Digital Literacy CEP</a>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <nav id="navMenu">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('modules') }}">Learn</a>
+        <a href="{{ url_for('safety') }}">Safety</a>
+        <a href="{{ url_for('survey', survey_type='pre') }}">Pre-Survey</a>
+        <a href="{{ url_for('survey', survey_type='post') }}">Post-Survey</a>
+        <a href="{{ url_for('results') }}">Results</a>
+        <a href="{{ url_for('feedback') }}">Feedback</a>
+    </nav>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-wrap">
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div>
+        <strong>Digital Literacy Training for Senior Citizens</strong>
+        <p>CEP Community Engagement Project • Student Awareness & Training Portal</p>
+    </div>
+    <div class="footer-links">
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('certificate') }}">Certificate</a>
+        <a href="{{ url_for('admin') }}">Dashboard</a>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

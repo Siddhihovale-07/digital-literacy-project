@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ survey_type|title }}-Training Survey | Digital Literacy CEP{% endblock %}
+{% block content %}
+<section class="page-header compact">
+    <span class="eyebrow">{{ survey_type|upper }}-TRAINING SURVEY</span>
+    <h1>{{ "Before Training" if survey_type == "pre" else "After Training" }}</h1>
+    <p>Answer honestly. This survey is used only to understand digital skill improvement for the CEP project.</p>
+</section>
+
+<form class="survey-form" method="POST">
+    <div class="form-card">
+        <h2>Participant Details</h2>
+        <div class="form-grid">
+            <label>Participant Name
+                <input type="text" name="participant_name" placeholder="Enter name" required>
+            </label>
+            <label>Age
+                <input type="number" name="age" min="50" max="120" placeholder="Age" required>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h2>Digital Skills Questions</h2>
+        {% for key, question in questions %}
+        <div class="question">
+            <p><strong>{{ loop.index }}.</strong> {{ question }}</p>
+            <label class="radio"><input type="radio" name="{{ key }}" value="yes" required> Yes</label>
+            <label class="radio"><input type="radio" name="{{ key }}" value="no"> No</label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="btn primary submit-btn" type="submit">Submit {{ survey_type|title }} Survey →</button>
+</form>
+{% endblock %}
